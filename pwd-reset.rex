@@ -57,14 +57,16 @@ res.1 = ''
 newpwd = '' 
 res = MultiInputBox("Enter New Password","TSS RESET",label.,res.,80)
 if res \= .Nil then do entry over res 
-   newpawd = upper(entry)
+   newpwd = upper(entry)
 end
 else do
    say 'Password not reseted'
    exit 8
 end
 
-
+/* display command */
+"echo TSS REP("user")PASS("newpwd",,EXP) > temp.txt"
+notepad temp.txt
 
 exit
 
