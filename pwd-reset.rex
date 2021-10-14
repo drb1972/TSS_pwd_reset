@@ -5,7 +5,7 @@ say '| TSS PWD Reset           |'
 say '+-------------------------+'
 
 /* pop up box to get the userid */
-label.1 = 'user'
+label.1 = 'user '
 res.1 = ''
 user = '' 
 res = MultiInputBox("Enter USER ID","TSS RESET",label.,res.,80)
@@ -15,9 +15,9 @@ end
 else do
    say 'No user was entered'
    exit 8
-end
-/* read jcl ikj and create temp.jcl */
+end 
 
+/* read jcl ikj and create temp.jcl */
 input_file  = 'ikj.jcl'
 output_file = 'temp.jcl'
 
@@ -49,7 +49,22 @@ call rxqueue "Delete", stem
 parse var sal.j 'SUCCESSFULLY DOWNLOADED OUTPUT TO ' path 
 /* jobnum = strip(sal.1) */
 path = path'/PWDRES/SYSTSPRT.txt'
-'code 'path 
+'notepad 'path 
+
+/* pop up box to renew pwd */
+label.1 = 'New Password '
+res.1 = ''
+newpwd = '' 
+res = MultiInputBox("Enter New Password","TSS RESET",label.,res.,80)
+if res \= .Nil then do entry over res 
+   newpawd = upper(entry)
+end
+else do
+   say 'Password not reseted'
+   exit 8
+end
+
+
 
 exit
 
