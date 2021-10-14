@@ -35,7 +35,7 @@ call lineout output_file
 call lineout input_file
 /*-------------------------*/
 
-command = 'zowe jobs submit lf ikj.jcl -d output' 
+command = 'zowe jobs submit lf temp.jcl -d output' 
 stem = rxqueue("Create")
 call rxqueue "Set",stem
 interpret "'"command" | rxqueue' "stem
@@ -47,7 +47,9 @@ end
 sal.0 = j
 call rxqueue "Delete", stem
 parse var sal.j 'SUCCESSFULLY DOWNLOADED OUTPUT TO ' path 
-say 'path = 'path
+/* jobnum = strip(sal.1) */
+path = path'/PWDRES/SYSTSPRT.txt'
+'code 'path 
 
 exit
 
