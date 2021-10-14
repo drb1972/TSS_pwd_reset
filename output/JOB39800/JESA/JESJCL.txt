@@ -1,8 +1,0 @@
-        1 //RODDI01A JOB (124300000),'MBDEMO',CLASS=A,MSGCLASS=X,MSGLEVEL=(1,1),  JOB39800
-          //           NOTIFY=&SYSUID,
-          // USER=RODDI01
-          //**--------------------------------------
-          IEFC653I SUBSTITUTION JCL - (124300000),'MBDEMO',CLASS=A,MSGCLASS=X,MSGLEVEL=(1,1),NOTIFY=RODDI01,USER=RODDI01
-        2 //RENAME   EXEC PGM=IKJEFT01,COND=(0,NE)
-        3 //SYSTSPRT DD SYSOUT=*
-        4 //SYSTSIN  DD *
