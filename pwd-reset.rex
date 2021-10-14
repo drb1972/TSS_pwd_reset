@@ -49,7 +49,31 @@ call rxqueue "Delete", stem
 parse var sal.j 'SUCCESSFULLY DOWNLOADED OUTPUT TO ' path 
 /* jobnum = strip(sal.1) */
 path = path'/PWDRES/SYSTSPRT.txt'
-'notepad 'path 
+/* 'notepad 'path */
+
+
+/* Show TSS Report */
+input_file  = 'index.empty'
+output_file = 'index.html'
+
+call lineout output_file, , 1
+/* Read lines in loop and process them */
+do while lines(input_file) \= 0
+   line = linein(input_file)
+   if pos("**here**",line) = 0 then call lineout output_file, line
+   else do
+      do while lines(path) \= 0
+         line = '<p>'linein(path)'</p>'
+         call lineout output_file, line 
+      end
+   end 
+end
+/* close all files */
+call lineout output_file
+call lineout input_file
+call lineout path
+
+'start index.html'
 
 /* pop up box to renew pwd */
 label.1 = 'New Password '
