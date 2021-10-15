@@ -45,12 +45,9 @@ call rxqueue "Set",stem
 interpret "'"command" | rxqueue' "stem
 pull sal
 parse var sal jobid ' CC ' cc .
-say 'jobid 'jobid
-say 'cc    'cc
 
 /* jobnum = strip(sal.1) */
 path = 'output/'jobid'/PWDRES/SYSTSPRT.txt'
-say path
 
 /* Show TSS Report */
 input_file  = 'index.empty'
@@ -74,7 +71,6 @@ call lineout input_file
 call lineout path
 
 'start index.html'
-say 'rc 'cc /* dxr */
 if cc > 4 then exit 8
 
 /* pop up box to renew pwd */
