@@ -4,6 +4,10 @@ say '+-------------------------+'
 say '| TSS PWD Reset           |'
 say '+-------------------------+'
 
+if SysIsFile('temp.txt') <> 0 then 'del temp.txt' 
+if SysIsFile('temp.jcl') <> 0 then 'del temp.jcl' 
+if SysIsFile('index.html') <> 0 then 'del index.html' 
+
 /* pop up box to get the userid */
 label.1 = 'user '
 res.1 = ''
@@ -35,25 +39,18 @@ call lineout output_file
 call lineout input_file
 /*-------------------------*/
 
-command = 'zowe jobs submit lf temp.jcl -d output' 
+command = 'zowe jobs submit lf temp.jcl -d output --rft table' 
 stem = rxqueue("Create")
 call rxqueue "Set",stem
 interpret "'"command" | rxqueue' "stem
-drop sal.; j = 0; sal = ''
-do queued()
-   pull sal
-   say sal
-   j=j+1; sal.j = sal
-end
-sal.0 = j
-call rxqueue "Delete", stem
-parse var sal.2 'CC ' rc
+pull sal
+parse var sal jobid ' CC ' cc .
+say 'jobid 'jobid
+say 'cc    'cc
 
-parse var sal.j 'SUCCESSFULLY DOWNLOADED OUTPUT TO ' path 
 /* jobnum = strip(sal.1) */
-path = path'/PWDRES/SYSTSPRT.txt'
-/* 'notepad 'path */
-
+path = 'output/'jobid'/PWDRES/SYSTSPRT.txt'
+say path
 
 /* Show TSS Report */
 input_file  = 'index.empty'
@@ -77,8 +74,8 @@ call lineout input_file
 call lineout path
 
 'start index.html'
-
-if rc > 4 then exit 8
+say 'rc 'cc /* dxr */
+if cc > 4 then exit 8
 
 /* pop up box to renew pwd */
 label.1 = 'New Password '
